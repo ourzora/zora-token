@@ -75,6 +75,32 @@ export async function sendEvm(
     // 5️⃣ normalize the user-supplied amount
     const amountUnits: BigNumber = parseUnits(amount, decimals)
 
+    // 6️⃣ Check if approval is required (for OFT Adapters) and handle approval
+    try {
+        const approvalRequired = await oft.approvalRequired()
+        if (approvalRequired) {
+            logger.info('OFT Adapter detected - checking ERC20 allowance...')
+
+            // Check current allowance
+            const currentAllowance = await erc20.allowance(signer.address, wrapperAddress)
+            logger.info(`Current allowance: ${currentAllowance.toString()}`)
+            logger.info(`Required amount: ${amountUnits.toString()}`)
+
+            if (currentAllowance.lt(amountUnits)) {
+                logger.info('Insufficient allowance - approving ERC20 tokens...')
+                const approveTx = await erc20.approve(wrapperAddress, amountUnits)
+                logger.info(`Approval transaction hash: ${approveTx.hash}`)
+                await approveTx.wait()
+                logger.info('ERC20 approval confirmed')
+            } else {
+                logger.info('Sufficient allowance already exists')
+            }
+        }
+    } catch (error) {
+        // If approvalRequired() doesn't exist or fails, assume it's a regular OFT (not an adapter)
+        logger.info('No approval required (regular OFT detected)')
+    }
+
     // Decide how to encode `to` based on target chain:
     const dstChain = endpointIdToChainType(dstEid)
     let toBytes: string

@@ -17,6 +17,7 @@ import { HardhatUserConfig, HttpNetworkAccountsUserConfig } from 'hardhat/types'
 
 import { EndpointId } from '@layerzerolabs/lz-definitions'
 
+import './type-extensions'
 import './tasks/index'
 
 // Set your preferred authentication method
@@ -59,10 +60,13 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        'sepolia-testnet': {
-            eid: EndpointId.SEPOLIA_V2_TESTNET,
-            url: process.env.RPC_URL_SEPOLIA || 'https://gateway.tenderly.co/public/sepolia',
+        'base-mainnet': {
+            eid: EndpointId.BASE_V2_MAINNET,
+            url: 'https://base.gateway.tenderly.co',
             accounts,
+            oftAdapter: {
+                tokenAddress: '0x1111111111166b7FE7bd91427724B487980aFc69', // Set the token address for the OFT adapter
+            },
         },
         hardhat: {
             // Need this for testing because TestHelperOz5.sol is exceeding the compiled contract size limit

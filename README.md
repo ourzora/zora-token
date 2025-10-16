@@ -1,34 +1,19 @@
-# Zora Token Contracts
+# Base Ecosystem Starter
 
-This repository contains the contracts for the Zora token.
+Mini starter repo pour déployer des smart contracts simples sur **Base Sepolia** et **Base mainnet**, avec Hardhat + TypeScript.
 
+## Démarrage rapide
+1. `cp .env.example .env` puis remplis les variables.
+2. `pnpm install` (ou `yarn` / `npm i`)
+3. `pnpm hardhat compile`
+4. Déployer Greeter: `pnpm hardhat run scripts/deploy_greeter.ts --network baseSepolia`
 
-## Contracts
+## Contenu
+- `contracts/GreeterBase.sol` et `contracts/CounterBase.sol`
+- `scripts/` pour déployer, lire, vérifier
+- `addresses/` pour stocker les adresses par réseau
+- `docs/` notes pratiques Base et sécurité
+- `test/` tests unitaires minimaux
 
-- [Zora.sol](./src/Zora.sol) - The main Zora token contract.
-- [IZora.sol](./src/IZora.sol) - The Zora token contract interface.
-
-- [ZoraTokenCommunityClaim.sol](./src/claim/ZoraTokenCommunityClaim.sol) - Main community claim contract.
-- [IZoraTokenCommunityClaim.sol](./src/claim/IZoraTokenCommunityClaim.sol) - Main community claim contract interface.
-
-## Audit Report
-
-This project has a [Zellic Audit Report](audit%2FZora%20Token%20-%20Zellic%20Audit%20Report.pdf) at ba75438
-
-## Setup
-
-Install dependencies
-
-```bash
-pnpm install
-```
-
-## Run tests in watch mode
-
-```bash
-pnpm dev
-```
-
-## Public
-
-The public webroot for metadata is `metadata/`. Be mindful with files in that directory.
+Auteur: Seb2869
+Licence: MIT

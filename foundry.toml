@@ -13,4 +13,4 @@ fs_permissions = [
 ]
 
 [rpc_endpoints]
-base = "${TENDERLY_KEY}"
+base = "https://mainnet.base.org"
